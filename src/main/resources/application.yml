@@ -1,0 +1,32 @@
+server:
+  port: 9000
+eureka:
+  instance:
+    hostname: localhost
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: customer-service
+          uri: lb://customer-service
+          predicates:
+            - Path=/customer/**
+        - id: contact-service
+          uri: lb://contact-service
+          predicates:
+            - Path=/contact/**
+        - id: account-service
+          uri: lb://account-service
+          predicates:
+            - Path=/account/**
+# actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, loggers, metrics
+
+
+
