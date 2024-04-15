@@ -9,24 +9,38 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: customer-service
-          uri: lb://customer-service
-          predicates:
-            - Path=/customer/**
-        - id: contact-service
-          uri: lb://contact-service
-          predicates:
-            - Path=/contact/**
         - id: account-service
           uri: lb://account-service
           predicates:
             - Path=/account/**
-# actuator
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: account-service
+#                fallback: forward:/accountServiceFallBack
+        - id: contact-service
+          uri: lb://contact-service
+          predicates:
+            - Path=/contact/**
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: contact-service
+#                fallback: forward:/contactServiceFallBack
+        - id: customer-service
+          uri: lb://customer-service
+          predicates:
+            - Path=/customer/**
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: customer-service
+#                fallback: forward:/customerServiceFallBack
+#hystrix:
+
+
 management:
   endpoints:
     web:
       exposure:
-        include: health, info, loggers, metrics
-
-
-
+        include: hystrix.stream
