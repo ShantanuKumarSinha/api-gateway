@@ -8,6 +8,9 @@ spring:
     name: api-gateway
   cloud:
     gateway:
+#      filter:
+#        circuit-breaker:
+#          enabled: true
       routes:
         - id: account-service
           uri: lb://account-service
@@ -37,10 +40,18 @@ spring:
 #                name: customer-service
 #                fallback: forward:/customerServiceFallBack
 #hystrix:
+#Hystrix Configuration
+#hystrix:
+#  command:
+#    fallback:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 4000
 
 
 management:
   endpoints:
     web:
       exposure:
-        include: hystrix.stream
+        include: hystrix.stream, health, info
